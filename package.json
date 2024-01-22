@@ -4,6 +4,7 @@
   "description": "html-builder task for RSSchool",
   "scripts": {
     "lint": "eslint .",
+    "fix": "eslint . --fix",
     "format": "prettier --write .",
     "ci:format": "prettier --check ."
   },

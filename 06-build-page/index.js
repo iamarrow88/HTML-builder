@@ -17,22 +17,15 @@ const assetsFolderPath = path.resolve(__dirname, 'assets');
 const pathToTemplate = path.resolve(__dirname, 'template.html');
 
 async function createFolder(folderPath, folderName) {
-  let fullPath = '';
-  if (folderName) {
-    fullPath = path.resolve(folderPath, folderName);
-  } else {
-    fullPath = folderPath;
-  }
+  const fullPath = folderName
+    ? path.resolve(folderPath, folderName)
+    : folderPath;
+
   return await fsPromises.mkdir(fullPath, { recursive: true });
 }
 
 async function createFile(filePath, fileName) {
-  let fullPath = '';
-  if (fileName) {
-    fullPath = path.resolve(filePath, fileName);
-  } else {
-    fullPath = filePath;
-  }
+  const fullPath = fileName ? path.resolve(filePath, fileName) : filePath;
 
   return await fsPromises.writeFile(fullPath, '');
 }

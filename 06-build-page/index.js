@@ -144,15 +144,37 @@ function separateTemplates(str) {
   });
 }
 
+function deleteFiles(pathDir) {
+  return new Promise((res) => {
+    fsPromises
+      .rm(pathDir, { recursive: true })
+      .then(() => res('done'))
+      .catch((err) => console.log(err.message));
+  });
+}
 function build() {
   const assets = 'assets';
-  createFolder(distFolderPath)
-    .then(() => createFolder(newAssetsPath))
-    .then(() => createFile(newHtmlPath))
-    .then(() => createFile(newCssPath))
-    .then(() => readFiles(assetsFolderPath, assets))
-    .then(() => selectCssFiles(stylesFolderPath, copyData))
-    .then(() => getHTMLCode(pathToTemplate, newHtmlPath));
+  fs.stat(distFolderPath, (err) => {
+    if (err) {
+      createFolder(distFolderPath)
+        .then(() => createFolder(newAssetsPath))
+        .then(() => createFile(newHtmlPath))
+        .then(() => createFile(newCssPath))
+        .then(() => readFiles(assetsFolderPath, assets))
+        .then(() => selectCssFiles(stylesFolderPath, copyData))
+        .then(() => getHTMLCode(pathToTemplate, newHtmlPath))
+        .catch((err) => console.log('Error, line 236 %%%%%%%%%% ' + err));
+    } else {
+      deleteFiles(distFolderPath)
+        .then(() => createFolder(distFolderPath))
+        .then(() => createFolder(newAssetsPath))
+        .then(() => createFile(newHtmlPath))
+        .then(() => createFile(newCssPath))
+        .then(() => readFiles(assetsFolderPath, assets))
+        .then(() => selectCssFiles(stylesFolderPath, copyData))
+        .then(() => getHTMLCode(pathToTemplate, newHtmlPath))
+        .catch((err) => console.log('Error, line 236 %%%%%%%%%% ' + err));
+    }
+  });
 }
-
 build();

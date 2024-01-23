@@ -11,7 +11,7 @@ fs.writeFile(fullPath, '', (err) => {
 stdout.write('Hello! Please, type something.');
 stdin.on('data', (data) => {
   if (data.toString().trim() === 'exit') {
-    console.log('Bye!');
+    console.log('Bye!2');
     process.exit(0);
   } else {
     fs.appendFile(fullPath, data, (err) => {
@@ -21,4 +21,7 @@ stdin.on('data', (data) => {
   }
 });
 
-stdin.on('exit', () => console.log('Bye!'));
+process.on('SIGINT', () => {
+  stdout.write('Bye bye');
+  process.exit();
+});
